@@ -1,0 +1,57 @@
+{
+	"editor": {
+		"allAngles": false,
+		"singleTexture": false
+	},
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"vial": "block/vial",
+		"metal": "game:/block/metal/ingot/gold"
+	},
+	"elements": [
+		{
+			"name": "Cube1",
+			"from": [ -1.5, 0.0, -1.5 ], 
+			"to": [ 1.5, 5.0, 1.5 ], 
+			"rotationOrigin": [ -1.0, 0.0, -1.0 ],
+			"faces": {
+				"north": { "texture": "#vial", "uv": [ 0.0, 0.0, 3.0, 5.0 ] },
+				"east": { "texture": "#vial", "uv": [ 0.0, 0.0, 3.0, 5.0 ] },
+				"south": { "texture": "#vial", "uv": [ 0.0, 0.0, 3.0, 5.0 ] },
+				"west": { "texture": "#vial", "uv": [ 0.0, 0.0, 3.0, 5.0 ] },
+				"up": { "texture": "#vial", "uv": [ 3.0, 3.0, 6.0, 6.0 ] },
+				"down": { "texture": "#vial", "uv": [ 3.0, 3.0, 6.0, 6.0 ] }
+			},
+			"children": [
+				{
+					"name": "Cube2",
+					"from": [ 0.25, 4.75, 0.25 ], 
+					"to": [ 2.75, 5.75, 2.75 ], 
+					"rotationOrigin": [ 0.0, 5.0, 0.0 ],
+					"faces": {
+						"north": { "texture": "#vial", "uv": [ 3.0, 0.0, 6.0, 1.0 ], "autoUv": false },
+						"east": { "texture": "#vial", "uv": [ 3.0, 0.0, 6.0, 1.0 ], "autoUv": false },
+						"south": { "texture": "#vial", "uv": [ 3.0, 2.0, 6.0, 3.0 ], "autoUv": false },
+						"west": { "texture": "#vial", "uv": [ 3.0, 0.0, 6.0, 1.0 ], "autoUv": false },
+						"up": { "texture": "#vial", "uv": [ 3.0, 0.0, 6.0, 3.0 ], "autoUv": false },
+						"down": { "texture": "#vial", "uv": [ 3.0, 0.0, 6.0, 3.0 ], "autoUv": false }
+					}
+				},
+				{
+					"name": "Cube3",
+					"from": [ 0.5, 0.66, 0.5 ], 
+					"to": [ 2.5, 4.66, 2.5 ], 
+					"rotationOrigin": [ 1.0, 1.0, 1.0 ],
+					"faces": {
+						"north": { "texture": "#metal", "uv": [ 6.0, 2.0, 8.0, 6.0 ] },
+						"east": { "texture": "#metal", "uv": [ 6.0, 2.0, 8.0, 6.0 ] },
+						"south": { "texture": "#metal", "uv": [ 6.0, 2.0, 8.0, 6.0 ] },
+						"west": { "texture": "#metal", "uv": [ 6.0, 2.0, 8.0, 6.0 ] },
+						"up": { "texture": "#metal", "uv": [ 6.0, 2.0, 8.0, 4.0 ] },
+						"down": { "texture": "#metal", "uv": [ 6.0, 4.0, 8.0, 6.0 ] }
+					}
+				}
+			]
+		}
+	]}

@@ -1,0 +1,112 @@
+{
+	"code": "vial",
+	"class": "ItemAllomanticMetalProvider",
+	"attributesByType": {
+		"*": { 
+			"metal": "{metal}",
+			"amount": 750.0
+		}
+	},
+	"maxstacksize": 16,
+	"variantgroups": [
+		{
+			"code": "metal",
+			"loadFromProperties": "block/metal",
+			"states": [
+				"empty"
+			]
+		}
+	],
+	"shape": {
+		"base": "item/vial"
+	},
+	"textures": {
+		"metal": {
+			"base": "game:block/metal/ingot/{metal}"
+		},
+		"vial": {
+			"base": "consumable/vial"
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"items": [
+			"*"
+		]
+	},
+	"materialDensity": 600,
+	"tpHandTransform": {
+		"translation": {
+			"x": -0.1,
+			"y": 0.2,
+			"z": 0.1
+		},
+		"rotation": {
+			"x": 3,
+			"y": 6,
+			"z": -57
+		},
+		"origin": {
+			"x": 0,
+			"y": 0,
+			"z": 0
+		},
+		"scale": 0.44
+	},
+	"guiTransform": {
+		"translation": {
+			"x": 0,
+			"y": 0,
+			"z": 0
+		},
+		"rotation": {
+			"x": 148,
+			"y": -45,
+			"z": 0
+		},
+		"origin": {
+			"x": -0.06,
+			"y": 0.21,
+			"z": 0
+		},
+		"scale": 3.15
+	},
+	"fpHandTransform": {
+		"translation": {
+			"x": 0.86,
+			"y": 0,
+			"z": 0
+		},
+		"rotation": {
+			"x": -16,
+			"y": 14,
+			"z": 15
+		},
+		"origin": {
+			"x": 0,
+			"y": 0,
+			"z": 0
+		},
+		"scale": 1.4
+	},
+	"groundTransform": {
+		"translation": {
+			"x": 0,
+			"y": 0,
+			"z": 0
+		},
+		"rotation": {
+			"x": 180,
+			"y": 33,
+			"z": -180
+		},
+		"origin": {
+			"x": 0,
+			"y": 0,
+			"z": 0
+		},
+		"scale": 2.5
+	}
+}

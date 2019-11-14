@@ -1,0 +1,220 @@
+[
+    {
+        "file": "game:itemtypes/resource/ingot",
+        "op": "add",
+        "path": "/combustiblePropsByType/ingot-pewter",
+        "value": {
+            "meltingPoint": 230,
+            "meltingDuration": 30,
+            "smeltedRatio": 1,
+            "smeltedStack": {
+                "type": "item",
+                "code": "ingot-pewter"
+            }
+        }
+    },
+    {
+        "file": "game:itemtypes/resource/ingot",
+        "op": "add",
+        "path": "/materialDensityByType/*-pewter",
+        "value": 7800
+    },
+    {
+        "file": "game:itemtypes/resource/ingot",
+        "op": "add",
+        "path": "/attributes/reinforcementStrengthByType/*-pewter",
+        "value": 350
+    },
+    {
+        "file": "game:itemtypes/resource/ingot",
+        "op": "add",
+        "path": "/combustiblePropsByType/ingot-nickel",
+        "value": {
+            "meltingPoint": 1455,
+            "meltingDuration": 30,
+            "smeltedRatio": 1,
+            "smeltedStack": {
+                "type": "item",
+                "code": "ingot-nickel"
+            }
+        }
+    },
+    {
+        "file": "game:itemtypes/resource/ingot",
+        "op": "add",
+        "path": "/materialDensityByType/*-nickel",
+        "value": 9808
+    },
+    {
+        "file": "game:itemtypes/resource/ingot",
+        "op": "add",
+        "path": "/attributes/reinforcementStrengthByType/*-nickel",
+        "value": 360
+    },
+
+
+    {
+        "file": "game:itemtypes/resource/ingot",
+        "op": "add",
+        "path": "/combustiblePropsByType/ingot-electrum",
+        "value": {
+            "meltingPoint": 1200,
+            "meltingDuration": 30,
+            "smeltedRatio": 1,
+            "smeltedStack": {
+                "type": "item",
+                "code": "ingot-electrum"
+            }
+        }
+    },
+    {
+        "file": "game:itemtypes/resource/ingot",
+        "op": "add",
+        "path": "/materialDensityByType/*-electrum",
+        "value": 8450
+    },
+    {
+        "file": "game:itemtypes/resource/ingot",
+        "op": "add",
+        "path": "/attributes/reinforcementStrengthByType/*-electrum",
+        "value": 320
+    },
+    {
+        "file": "game:itemtypes/resource/ingot",
+        "op": "add",
+        "path": "/combustiblePropsByType/ingot-cadmium",
+        "value": {
+            "meltingPoint": 321,
+            "meltingDuration": 30,
+            "smeltedRatio": 1,
+            "smeltedStack": {
+                "type": "item",
+                "code": "ingot-cadmium"
+            }
+        }
+    },
+    {
+        "file": "game:itemtypes/resource/ingot",
+        "op": "add",
+        "path": "/materialDensityByType/*-cadmium",
+        "value": 8650
+    },
+    {
+        "file": "game:itemtypes/resource/ingot",
+        "op": "add",
+        "path": "/attributes/reinforcementStrengthByType/*-cadmium",
+        "value": 327
+    },
+    {
+        "file": "game:itemtypes/resource/ingot",
+        "op": "add",
+        "path": "/combustiblePropsByType/ingot-bendalloy",
+        "value": {
+            "meltingPoint": 320,
+            "meltingDuration": 30,
+            "smeltedRatio": 1,
+            "smeltedStack": {
+                "type": "item",
+                "code": "ingot-bendalloy"
+            }
+        }
+    },
+    {
+        "file": "game:itemtypes/resource/ingot",
+        "op": "add",
+        "path": "/materialDensityByType/*-bendalloy",
+        "value": 9053
+    },
+    {
+        "file": "game:itemtypes/resource/ingot",
+        "op": "add",
+        "path": "/attributes/reinforcementStrengthByType/*-bendalloy",
+        "value": 327
+    },
+
+
+    {
+        "file": "game:itemtypes/resource/ingot",
+        "op": "add",
+        "path": "/combustiblePropsByType/ingot-aluminium",
+        "value": {
+            "meltingPoint": 660,
+            "meltingDuration": 30,
+            "smeltedRatio": 1,
+            "smeltedStack": {
+                "type": "item",
+                "code": "ingot-aluminium"
+            }
+        }
+    },
+    {
+        "file": "game:itemtypes/resource/ingot",
+        "op": "add",
+        "path": "/materialDensityByType/*-aluminium",
+        "value": 2700
+    },
+    {
+        "file": "game:itemtypes/resource/ingot",
+        "op": "add",
+        "path": "/attributes/reinforcementStrengthByType/*-aluminium",
+        "value": 370
+    },
+    {
+        "file": "game:itemtypes/resource/ingot",
+        "op": "add",
+        "path": "/combustiblePropsByType/ingot-duraluminium",
+        "value": {
+            "meltingPoint": 550,
+            "meltingDuration": 30,
+            "smeltedRatio": 1,
+            "smeltedStack": {
+                "type": "item",
+                "code": "ingot-duraluminium"
+            }
+        }
+    },
+    {
+        "file": "game:itemtypes/resource/ingot",
+        "op": "add",
+        "path": "/materialDensityByType/*-duraluminium",
+        "value": 2790
+    },
+    {
+        "file": "game:itemtypes/resource/ingot",
+        "op": "add",
+        "path": "/attributes/reinforcementStrengthByType/*-duraluminium",
+        "value": 380
+    },
+    {
+        "file": "game:itemtypes/resource/ingot",
+        "op": "add",
+        "path": "/combustiblePropsByType/ingot-nicrosil",
+        "value": {
+            "meltingPoint": 1800,
+            "meltingDuration": 30,
+            "smeltedRatio": 1,
+            "smeltedStack": {
+                "type": "item",
+                "code": "ingot-nicrosil"
+            }
+        }
+    },
+    {
+        "file": "game:itemtypes/resource/ingot",
+        "op": "add",
+        "path": "/materialDensityByType/*-nicrosil",
+        "value": 9020
+    },
+    {
+        "file": "game:itemtypes/resource/ingot",
+        "op": "add",
+        "path": "/attributes/reinforcementStrengthByType/*-nicrosil",
+        "value": 500
+    },
+    {
+        "file": "game:itemtypes/resource/ingot",
+        "op": "replace",
+        "path": "/combustiblePropsByType/ingot-iron/smeltedStack/code",
+        "value": "ingot-steel"
+    }
+]

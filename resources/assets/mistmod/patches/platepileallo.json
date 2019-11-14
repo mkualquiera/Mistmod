@@ -1,0 +1,66 @@
+[
+    {
+        "file": "game:blocktypes/metal/platepile",
+        "op": "add",
+        "path": "/textures/pewter",
+        "value": {
+            "base": "block/metal/ingot/pewter"
+        }
+    },
+    {
+        "file": "game:blocktypes/metal/platepile",
+        "op": "add",
+        "path": "/textures/nickel",
+        "value": {
+            "base": "block/metal/ingot/nickel"
+        }
+    },
+    {
+        "file": "game:blocktypes/metal/platepile",
+        "op": "add",
+        "path": "/textures/electrum",
+        "value": {
+            "base": "block/metal/ingot/electrum"
+        }
+    },
+    {
+        "file": "game:blocktypes/metal/platepile",
+        "op": "add",
+        "path": "/textures/cadmium",
+        "value": {
+            "base": "block/metal/ingot/cadmium"
+        }
+    },
+    {
+        "file": "game:blocktypes/metal/platepile",
+        "op": "add",
+        "path": "/textures/bendalloy",
+        "value": {
+            "base": "block/metal/ingot/bendalloy"
+        }
+    },
+    {
+        "file": "game:blocktypes/metal/platepile",
+        "op": "add",
+        "path": "/textures/aluminium",
+        "value": {
+            "base": "block/metal/ingot/aluminium"
+        }
+    },
+    {
+        "file": "game:blocktypes/metal/platepile",
+        "op": "add",
+        "path": "/textures/duraluminium",
+        "value": {
+            "base": "block/metal/ingot/duraluminium"
+        }
+    },
+    {
+        "file": "game:blocktypes/metal/platepile",
+        "op": "add",
+        "path": "/textures/nicrosil",
+        "value": {
+            "base": "block/metal/ingot/nicrosil"
+        }
+    }
+]

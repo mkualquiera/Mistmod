@@ -1,0 +1,74 @@
+[
+    {
+        "file": "game:worldproperties/block/metal",
+        "op": "add",
+        "path": "/variants/-",
+        "value": {
+            "code": "pewter",
+            "tier": 2
+        }
+    },
+    {
+        "file": "game:worldproperties/block/metal",
+        "op": "add",
+        "path": "/variants/-",
+        "value": {
+            "code": "nickel",
+            "tier": 3
+        }
+    },
+    {
+        "file": "game:worldproperties/block/metal",
+        "op": "add",
+        "path": "/variants/-",
+        "value": {
+            "code": "electrum",
+            "tier": 2
+        }
+    },
+    {
+        "file": "game:worldproperties/block/metal",
+        "op": "add",
+        "path": "/variants/-",
+        "value": {
+            "code": "cadmium",
+            "tier": 2
+        }
+    },
+    {
+        "file": "game:worldproperties/block/metal",
+        "op": "add",
+        "path": "/variants/-",
+        "value": {
+            "code": "bendalloy",
+            "tier": 2
+        }
+    },
+    {
+        "file": "game:worldproperties/block/metal",
+        "op": "add",
+        "path": "/variants/-",
+        "value": {
+            "code": "aluminium",
+            "tier": 2
+        }
+    },
+    {
+        "file": "game:worldproperties/block/metal",
+        "op": "add",
+        "path": "/variants/-",
+        "value": {
+            "code": "duraluminium",
+            "tier": 2
+        }
+    },
+    {
+        "file": "game:worldproperties/block/metal",
+        "op": "add",
+        "path": "/variants/-",
+        "value": {
+            "code": "nicrosil",
+            "tier": 2
+        }
+    }
+]

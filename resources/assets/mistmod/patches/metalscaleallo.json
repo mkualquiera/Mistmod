@@ -1,0 +1,8 @@
+[
+    {
+        "file": "game:itemtypes/resource/metalscale",
+        "op": "replace",
+        "path": "/textures/material/base",
+        "value": "block/metal/ingot/{metal}"
+    }
+]

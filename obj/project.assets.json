@@ -1,0 +1,86 @@
+{
+  "version": 3,
+  "targets": {
+    ".NETFramework,Version=v4.5.2": {
+      "protobuf-net/2.1.0": {
+        "type": "package",
+        "frameworkAssemblies": [
+          "System.Xml"
+        ],
+        "compile": {
+          "lib/net451/protobuf-net.dll": {}
+        },
+        "runtime": {
+          "lib/net451/protobuf-net.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "protobuf-net/2.1.0": {
+      "sha512": "0BVNsKmrs1xd6P6UXbFh6ssNUc/2oGZuWs+q+cxW2NLtib1l0ijFMoVtMoWWESy8ktDZ7FjneuZaDbY5MvGV4g==",
+      "type": "package",
+      "path": "protobuf-net/2.1.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net40/protobuf-net.dll",
+        "lib/net45/protobuf-net.dll",
+        "lib/net451/protobuf-net.dll",
+        "lib/netstandard1.3/protobuf-net.dll",
+        "lib/netstandard1.5/protobuf-net.dll",
+        "protobuf-net.2.1.0.nupkg.sha512",
+        "protobuf-net.nuspec"
+      ]
+    }
+  },
+  "projectFileDependencyGroups": {
+    ".NETFramework,Version=v4.5.2": [
+      "protobuf-net >= 2.1.0"
+    ]
+  },
+  "packageFolders": {
+    "/home/juan/.nuget/packages/": {}
+  },
+  "project": {
+    "version": "0.1.0",
+    "restore": {
+      "projectUniqueName": "/home/juan/projects/Mistmod/Mistmod.csproj",
+      "projectName": "Mistmod",
+      "projectPath": "/home/juan/projects/Mistmod/Mistmod.csproj",
+      "packagesPath": "/home/juan/.nuget/packages/",
+      "outputPath": "/home/juan/projects/Mistmod/obj/",
+      "projectStyle": "PackageReference",
+      "configFilePaths": [
+        "/home/juan/.nuget/NuGet/NuGet.Config"
+      ],
+      "originalTargetFrameworks": [
+        "net452"
+      ],
+      "sources": {
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "net452": {
+          "projectReferences": {}
+        }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
+      }
+    },
+    "frameworks": {
+      "net452": {
+        "dependencies": {
+          "protobuf-net": {
+            "target": "Package",
+            "version": "[2.1.0, )"
+          }
+        },
+        "runtimeIdentifierGraphPath": "/opt/dotnet/sdk/3.1.100-preview2-014569/RuntimeIdentifierGraph.json"
+      }
+    }
+  }
+}

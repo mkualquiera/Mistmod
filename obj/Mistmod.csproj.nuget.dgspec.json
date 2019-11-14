@@ -1,0 +1,49 @@
+{
+  "format": 1,
+  "restore": {
+    "/home/juan/projects/Mistmod/Mistmod.csproj": {}
+  },
+  "projects": {
+    "/home/juan/projects/Mistmod/Mistmod.csproj": {
+      "version": "0.1.0",
+      "restore": {
+        "projectUniqueName": "/home/juan/projects/Mistmod/Mistmod.csproj",
+        "projectName": "Mistmod",
+        "projectPath": "/home/juan/projects/Mistmod/Mistmod.csproj",
+        "packagesPath": "/home/juan/.nuget/packages/",
+        "outputPath": "/home/juan/projects/Mistmod/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/juan/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net452"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net452": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net452": {
+          "dependencies": {
+            "protobuf-net": {
+              "target": "Package",
+              "version": "[2.1.0, )"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/opt/dotnet/sdk/3.1.100-preview2-014569/RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
