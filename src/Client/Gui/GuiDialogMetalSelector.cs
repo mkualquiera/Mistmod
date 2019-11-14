@@ -13,16 +13,20 @@ namespace MistMod {
         /// <summary> Id of the key combination used to toggle the dialog </summary>
         public override string ToggleKeyCombinationCode => "guimetalselect";
 
+        private ClientAllomancyHandler Chandler;
+
         string DisplayItemCode = "mistmod:vial-";
         double OriginX = 180 + 15;
         double OriginY = 180 + 40;
         double ExternalLen = 180;
         double InternalLen = 100;
-        double SlotSize = GuiElementPassiveItemSlot.unscaledSlotSize + GuiElementItemSlotGrid.unscaledSlotPadding;
+        double SlotSize = GuiElementPassiveItemSlot.unscaledSlotSize 
+            + GuiElementItemSlotGrid.unscaledSlotPadding;
 
         /// <summary> Create an instance of the dialog. </summary>
         /// <param name="capi"> A reference to the client api.static </param>
-        public GuiDialogMetalSelector (ICoreClientAPI capi) : base(capi) {
+        public GuiDialogMetalSelector (ICoreClientAPI capi, ClientAllomancyHandler chandler) : base(capi) {
+            Chandler = chandler;
             SetupDialog();
         }
         
@@ -30,10 +34,14 @@ namespace MistMod {
         private void SetupDialog() {
 
             // Make the dialog centered and resize automatically
-            ElementBounds dialogBounds = ElementStdBounds.AutosizedMainDialog.WithAlignment(EnumDialogArea.CenterMiddle);
+            ElementBounds dialogBounds = ElementStdBounds
+                .AutosizedMainDialog
+                .WithAlignment(EnumDialogArea.CenterMiddle);
 
             // Background boundaries. Make it fit the metal slots.
-            ElementBounds bgBounds = ElementBounds.Fill.WithFixedPadding(GuiStyle.ElementToDialogPadding);
+            ElementBounds bgBounds = ElementBounds
+                .Fill
+                .WithFixedPadding(GuiStyle.ElementToDialogPadding);
             bgBounds.BothSizing = ElementSizing.FitToChildren;
 
             // Create the boundaries for each metal slot, then assign them as children of the background.
@@ -80,7 +88,8 @@ namespace MistMod {
             for (int i = 0; i < MistModSystem.METALS.Length; i++) {
 
                 // Create a dummy slot of the item that will be displayed.
-                AssetLocation itemLocation = AssetLocation.Create(DisplayItemCode + MistModSystem.METALS[i]);
+                AssetLocation itemLocation = AssetLocation.Create(
+                    DisplayItemCode + MistModSystem.METALS[i]);
                 Item item = capi.World.GetItem(itemLocation);
                 ItemStack stack = new ItemStack(item,1);
                 ItemSlot dummySlot = new DummySlot(stack);
@@ -110,7 +119,7 @@ namespace MistMod {
                     skillItems, 
                     1, 
                     1,
-                    delegate(int a) {OnSelectMetal(j);},
+                    delegate(int a) {SelectMetal(j);},
                     metalBounds[i],
                     "skill-"+MistModSystem.METALS[i]);
 
@@ -131,11 +140,12 @@ namespace MistMod {
             TryClose();
         }
 
-        private void OnSelectMetal (int index) {
+        public void SelectMetal (int index) {
             SingleComposer.GetDynamicText("metalText")
                 .SetNewText(MistModSystem.METALS[index]); // Change the metal text accordingly.
             SingleComposer.GetDynamicText("metalAmount")
                 .SetNewText("" + 0); // Change the amount of metal. 
+            Chandler.Channel.SendPacket(new SelectedMetalMessage(index));
         }
 
         private ElementBounds BoundsForIndex (int index, bool external) {
@@ -157,11 +167,15 @@ namespace MistMod {
         }
 
         private double RawPosY (int id, bool external) {
-            return OriginY + PolarHelperY(AngleForIndex(id), external ? ExternalLen : InternalLen);
+            return OriginY + PolarHelperY(
+                AngleForIndex(id), 
+                external ? ExternalLen : InternalLen);
         }
 
         private double RawPosX (int id, bool external) {
-            return OriginX + PolarHelperX(AngleForIndex(id), external ? ExternalLen : InternalLen);
+            return OriginX + PolarHelperX(
+                AngleForIndex(id), 
+                external ? ExternalLen : InternalLen);
         }
 
         private double PolarHelperX (double angle, double distance) {

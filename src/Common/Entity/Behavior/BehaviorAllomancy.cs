@@ -58,13 +58,26 @@ namespace MistMod
                 allomancyTree.SetAttribute("metals", new TreeAttribute());
                 allomancyTree.SetAttribute("status", new TreeAttribute());
                 allomancyTree.SetAttribute("toggle", new TreeAttribute());
+                allomancyTree.SetString("selectedMetal", "none");
                 // Make the entity a random misting.
                 string chosenPower = MistModSystem.METALS[RNG.Next(0, MistModSystem.METALS.Length)];
                 AllomanticPowers.SetBool(chosenPower, true);
+                entity.WatchedAttributes.MarkPathDirty("allomancy");
                 return;
             }
         }
+        
+        /// <summary> Set the currently selected metal for the entity with this behavior </summary>
+        public void SetSelectedMetal (string metal) {
+            allomancyTree.SetString("selectedMetal", metal);
+            entity.WatchedAttributes.MarkPathDirty("allomancy");
+        }
 
+        /// <summary> Get the currently selected metal for the entity with this behavior </summary>
+        public string GetSelectedMetal () {
+            return allomancyTree.GetString("selectedMetal");
+        }
+ 
         /// <summary> Enable all allomantic powers for the entity with this behavior </summary>
         public void EnableAllPowers () {
             foreach (string power in MistModSystem.METALS) {

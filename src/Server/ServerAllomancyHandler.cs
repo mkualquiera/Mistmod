@@ -23,16 +23,38 @@ namespace MistMod {
             Sapi = sapi;
             Current = this;
         }
-        /// <summary> Itialize the handler </summary>
+        /// <summary> Initialize the handler </summary>
         public void Initialize () {
             Sapi.RegisterEntityBehaviorClass("allomancy",typeof(EntityBehaviorAllomancy));
+
             Channel = Sapi.Network.RegisterChannel(MistModSystem.MOD_ID)
-			.RegisterMessageType(typeof(BurnMessage));
+			    .RegisterMessageType(typeof(BurnMessage))
+                .RegisterMessageType(typeof(SelectedMetalMessage));
+
             Channel.SetMessageHandler<BurnMessage>(OnBurnMetalMessage);
+            Channel.SetMessageHandler<SelectedMetalMessage>(OnSelectedMetalMessage);
         }
 
-        /// <summary> Called when a player requests to change the burn status of a metal </summary>
-        public void OnBurnMetalMessage(IServerPlayer player, BurnMessage message) {
+        private void OnSelectedMetalMessage(IServerPlayer player, SelectedMetalMessage message) {
+            EntityBehaviorAllomancy allomancy = (EntityBehaviorAllomancy)(player.Entity.GetBehavior("allomancy"));
+            if (message._metal_id < -1 || message._metal_id >= MistModSystem.METALS.Length) {
+                return;
+            }
+            if (message._metal_id == -1) { // The client doesn't know what the selected metal is
+                string selectedMetal = allomancy.GetSelectedMetal();
+                int result = -1;
+                if (selectedMetal != "none") {
+                    result = Array.IndexOf(MistModSystem.METALS, selectedMetal);
+                }
+                Channel.SendPacket(new SelectedMetalMessage(result), player);
+            } else { // The client does know what the selected metal is.
+                string selectedMetal = MistModSystem.METALS[message._metal_id];
+                allomancy.SetSelectedMetal(selectedMetal);
+            }
+            allomancy.Debug();
+        }
+
+        private void OnBurnMetalMessage(IServerPlayer player, BurnMessage message) {
             EntityBehaviorAllomancy allomancy = ((EntityBehaviorAllomancy)player.Entity.GetBehavior("allomancy"));
             if (message._burn_strength == 1) { // Flare the metal
                 int currentStrength = allomancy.GetBurnStatus(MistModSystem.METALS[message._metal_id]);

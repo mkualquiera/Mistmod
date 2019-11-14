@@ -30,13 +30,40 @@ namespace MistMod {
         public void Initialize () {
             // Register the networking channel.
             Channel = Capi.Network.RegisterChannel(MistModSystem.MOD_ID)
-			.RegisterMessageType(typeof(BurnMessage));
+			    .RegisterMessageType(typeof(BurnMessage))
+                .RegisterMessageType(typeof(SelectedMetalMessage));
+
+            Channel.SetMessageHandler<SelectedMetalMessage>(OnSelectedMetalMessage);
 
             // Hotkeys for burning metals.
-            Capi.Input.RegisterHotKey("burn-metal-toggle", "Toggle allomantic metal burn", GlKeys.Z, HotkeyType.CharacterControls,false,true,true);
-            Capi.Input.RegisterHotKey("burn-metal-inc", "Increase allomantic metal burn", GlKeys.Z, HotkeyType.CharacterControls,false,false,true);
-            Capi.Input.RegisterHotKey("burn-metal-dec", "Decrease allomantic metal burn", GlKeys.Z, HotkeyType.CharacterControls,false,true,false);
-            Capi.Input.RegisterHotKey("burn-metal-flare", "Flare allomantic metal", GlKeys.Z, HotkeyType.CharacterControls);
+            Capi.Input.RegisterHotKey("burn-metal-toggle", 
+                "Toggle allomantic metal burn", 
+                GlKeys.Z, 
+                HotkeyType.CharacterControls,
+                false,
+                true,
+                true);
+            Capi.Input.RegisterHotKey(
+                "burn-metal-inc", 
+                "Increase allomantic metal burn", 
+                GlKeys.Z, 
+                HotkeyType.CharacterControls,
+                false,
+                false,
+                true);
+            Capi.Input.RegisterHotKey(
+                "burn-metal-dec", 
+                "Decrease allomantic metal burn",
+                GlKeys.Z, 
+                HotkeyType.CharacterControls,
+                false,
+                true,
+                false);
+            Capi.Input.RegisterHotKey(
+                "burn-metal-flare", 
+                "Flare allomantic metal", 
+                GlKeys.Z, 
+                HotkeyType.CharacterControls);
 
             Capi.Input.SetHotKeyHandler("burn-metal-toggle", a => {
                 Channel.SendPacket(new BurnMessage(0, 4));
@@ -56,7 +83,11 @@ namespace MistMod {
 			});
 
             // Hotkeys for GUI
-            Capi.Input.RegisterHotKey("guimetalselect", "Select allomantic metal", GlKeys.K, HotkeyType.GUIOrOtherControls);
+            Capi.Input.RegisterHotKey(
+                "guimetalselect", 
+                "Select allomantic metal", 
+                GlKeys.K, 
+                HotkeyType.GUIOrOtherControls);
 
             Capi.Input.SetHotKeyHandler("guimetalselect", ToggleMetalSelectGui);
             
@@ -64,9 +95,21 @@ namespace MistMod {
             Capi.Event.BlockTexturesLoaded += OnLoad;
         }
 
+        private void OnSelectedMetalMessage (SelectedMetalMessage message) {
+            if (message._metal_id < -1 || message._metal_id >= MistModSystem.METALS.Length) {
+                return;
+            }
+            if (message._metal_id != -1) {
+                metalSelector.SelectMetal(message._metal_id);
+            }
+        }
+
         private void OnLoad () {
             // Instantiate the metal selector.
-            metalSelector = new GuiDialogMetalSelector(Capi);
+            metalSelector = new GuiDialogMetalSelector(Capi, this);
+
+            // Ask the server for the cached selected slot
+            Channel.SendPacket(new SelectedMetalMessage(-1));
         }
 
         private bool ToggleMetalSelectGui (KeyCombination comb) {
