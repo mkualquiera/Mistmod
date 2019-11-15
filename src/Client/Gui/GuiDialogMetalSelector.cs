@@ -11,7 +11,7 @@ namespace MistMod {
     public class GuiDialogMetalSelector : GuiDialog
     {
         /// <summary> Index of the selected metal </summary>
-        private int selectedMetal = -1;
+        public int SelectedMetal = -1;
         /// <summary> Id of the key combination used to toggle the dialog </summary>
         public override string ToggleKeyCombinationCode => "guimetalselect";
 
@@ -144,8 +144,8 @@ namespace MistMod {
         
         /// <summary> Trigger an update of the UI </summary>
         public void UpdateUI (float dt) {
-            if (selectedMetal != -1) {
-                string metalName = MistModSystem.METALS[selectedMetal];
+            if (SelectedMetal != -1) {
+                string metalName = MistModSystem.METALS[SelectedMetal];
                 float amount = Chandler.AllomancyHelper.GetMetalReserve(metalName);
                 SetMetalAmount(amount);
             }
@@ -160,7 +160,7 @@ namespace MistMod {
         public void SelectMetal (int index) {
             SingleComposer.GetDynamicText("metalText")
                 .SetNewText(MistModSystem.METALS[index]); // Change the metal text accordingly.
-            selectedMetal = index;
+            SelectedMetal = index;
             Chandler.Channel.SendPacket(new SelectedMetalMessage(index));
         }
 

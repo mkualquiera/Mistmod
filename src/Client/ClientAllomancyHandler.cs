@@ -68,19 +68,19 @@ namespace MistMod {
                 HotkeyType.CharacterControls);
 
             Capi.Input.SetHotKeyHandler("burn-metal-toggle", a => {
-                Channel.SendPacket(new BurnMessage(0, 4));
+                Channel.SendPacket(new BurnMessage(metalSelector.SelectedMetal, 4));
 				return true;
 			});
 			Capi.Input.SetHotKeyHandler("burn-metal-inc", a => {
-                Channel.SendPacket(new BurnMessage(0, 3));
+                Channel.SendPacket(new BurnMessage(metalSelector.SelectedMetal, 3));
 				return true;
 			});
             Capi.Input.SetHotKeyHandler("burn-metal-dec", a => {
-                Channel.SendPacket(new BurnMessage(0, 2));
+                Channel.SendPacket(new BurnMessage(metalSelector.SelectedMetal, 2));
 				return true;
 			});
             Capi.Input.SetHotKeyHandler("burn-metal-flare", a => {
-                Channel.SendPacket(new BurnMessage(0, 1));
+                Channel.SendPacket(new BurnMessage(metalSelector.SelectedMetal, 1));
 				return true;
 			});
 
