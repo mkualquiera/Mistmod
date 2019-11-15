@@ -51,6 +51,11 @@ namespace MistMod
             float consumption = ((float)strength / 100);
             if (flare) { consumption += 1/50; }
             Helper.IncrementMetalReserve(power, -consumption);
+            if (power == "aluminium") {
+                foreach (string metal in MistModSystem.METALS) {
+                    Helper.SetMetalReserve(metal, 0);
+                }
+            }
             if (power == "steel" | power == "iron") {
                 if (keyTick % 15 == 0 | flare) {
                     float divider = 23;
