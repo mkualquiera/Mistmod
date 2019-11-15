@@ -41,7 +41,7 @@ namespace MistMod {
                 return;
             }
             if (message._metal_id == -1) { // The client doesn't know what the selected metal is
-                string selectedMetal = allomancy.GetSelectedMetal();
+                string selectedMetal = allomancy.Helper.GetSelectedMetal();
                 int result = -1;
                 if (selectedMetal != "none") {
                     result = Array.IndexOf(MistModSystem.METALS, selectedMetal);
@@ -49,27 +49,27 @@ namespace MistMod {
                 Channel.SendPacket(new SelectedMetalMessage(result), player);
             } else { // The client does know what the selected metal is.
                 string selectedMetal = MistModSystem.METALS[message._metal_id];
-                allomancy.SetSelectedMetal(selectedMetal);
+                allomancy.Helper.SetSelectedMetal(selectedMetal);
             }
-            allomancy.Debug();
+            allomancy.Helper.Debug();
         }
 
         private void OnBurnMetalMessage(IServerPlayer player, BurnMessage message) {
             EntityBehaviorAllomancy allomancy = ((EntityBehaviorAllomancy)player.Entity.GetBehavior("allomancy"));
             if (message._burn_strength == 1) { // Flare the metal
-                int currentStrength = allomancy.GetBurnStatus(MistModSystem.METALS[message._metal_id]);
+                int currentStrength = allomancy.Helper.GetBurnStatus(MistModSystem.METALS[message._metal_id]);
                 allomancy.TryExecuteAllomanticEffect(MistModSystem.METALS[message._metal_id], currentStrength, true);
             } 
             if (message._burn_strength == 2) { // Decrease the burn status
-                allomancy.IncrementBurnStatus(MistModSystem.METALS[message._metal_id], -1);
+                allomancy.Helper.IncrementBurnStatus(MistModSystem.METALS[message._metal_id], -1);
             }
             if (message._burn_strength == 3) { // Increase the burn status
-                allomancy.IncrementBurnStatus(MistModSystem.METALS[message._metal_id], 1);
+                allomancy.Helper.IncrementBurnStatus(MistModSystem.METALS[message._metal_id], 1);
             }
             if (message._burn_strength == 4) { // Toggle the burn of the metal
-                allomancy.ToggleBurn(MistModSystem.METALS[message._metal_id]);
+                allomancy.Helper.ToggleBurn(MistModSystem.METALS[message._metal_id]);
             }
-            allomancy.Debug();
+            allomancy.Helper.Debug();
         }        
     }
 }

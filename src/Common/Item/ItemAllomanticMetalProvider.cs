@@ -69,9 +69,9 @@ namespace MistMod
                     JsonObject attr = slot.Itemstack.Collectible.Attributes;
                     float amount = attr["amount"].AsFloat();
                     string metal = attr["metal"].AsString();
-                    allomancy.IncrementMetalReserve(metal, amount);
+                    allomancy.Helper.IncrementMetalReserve(metal, amount);
                     slot.TakeOut(1);
-                    allomancy.Debug();
+                    allomancy.Helper.Debug();
                 }
             }
         }

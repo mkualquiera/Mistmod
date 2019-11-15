@@ -68,9 +68,9 @@ namespace MistMod
             {
                 EntityBehaviorAllomancy allomancy = (EntityBehaviorAllomancy)byEntity.GetBehavior("allomancy");
                 if (allomancy != null) {
-                    allomancy.EnableAllPowers();
+                    allomancy.Helper.EnableAllPowers();
                     slot.TakeOut(1);
-                    allomancy.Debug();
+                    allomancy.Helper.Debug();
                 }
             }
         }
