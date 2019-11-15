@@ -14,6 +14,8 @@ namespace MistMod {
         public IClientNetworkChannel Channel { get; private set; }
         /// <summary> The handler currently in use </summary>
         public ClientAllomancyHandler Current;
+        /// <summary> Helper for getting allomantic properties </summary>
+        public AllomancyPropertyHelper AllomancyHelper;
 
         /// <summary> Construct a new allomancy handler </summary>
         /// <param name="capi"> The client api </summary>
@@ -93,6 +95,20 @@ namespace MistMod {
             
             // Add event to know when the game has loaded.
             Capi.Event.BlockTexturesLoaded += OnLoad;
+
+            Capi.Event.PlayerEntitySpawn += (IClientPlayer player) => {
+                if (player.Entity == Capi.World.Player.Entity) {
+                    // Instantiate the allomancy helper.
+                    AllomancyHelper = new AllomancyPropertyHelper(Capi.World.Player.Entity);
+                }
+            };
+
+            // Register UI updates
+            Capi.Event.RegisterGameTickListener((float dt) => {
+                if (AllomancyHelper != null) {
+                    metalSelector.UpdateUI(dt);
+                }
+            }, 10);
         }
 
         private void OnSelectedMetalMessage (SelectedMetalMessage message) {
@@ -107,7 +123,6 @@ namespace MistMod {
         private void OnLoad () {
             // Instantiate the metal selector.
             metalSelector = new GuiDialogMetalSelector(Capi, this);
-
             // Ask the server for the cached selected slot
             Channel.SendPacket(new SelectedMetalMessage(-1));
         }

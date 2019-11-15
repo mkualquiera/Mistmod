@@ -10,6 +10,8 @@ namespace MistMod {
     /// <summary> Dialog for selecting which metal to burn. </summary>
     public class GuiDialogMetalSelector : GuiDialog
     {
+        /// <summary> Index of the selected metal </summary>
+        private int selectedMetal = -1;
         /// <summary> Id of the key combination used to toggle the dialog </summary>
         public override string ToggleKeyCombinationCode => "guimetalselect";
 
@@ -139,12 +141,26 @@ namespace MistMod {
         {
             TryClose();
         }
+        
+        /// <summary> Trigger an update of the UI </summary>
+        public void UpdateUI (float dt) {
+            if (selectedMetal != -1) {
+                string metalName = MistModSystem.METALS[selectedMetal];
+                float amount = Chandler.AllomancyHelper.GetMetalReserve(metalName);
+                SetMetalAmount(amount);
+            }
+        }
 
+        private void SetMetalAmount (float amount) {
+            SingleComposer.GetDynamicText("metalAmount")
+                .SetNewText("" + amount); // Change the amount of metal. 
+        }
+
+        /// <summary> Select a specific metal for burning </summary>
         public void SelectMetal (int index) {
             SingleComposer.GetDynamicText("metalText")
                 .SetNewText(MistModSystem.METALS[index]); // Change the metal text accordingly.
-            SingleComposer.GetDynamicText("metalAmount")
-                .SetNewText("" + 0); // Change the amount of metal. 
+            selectedMetal = index;
             Chandler.Channel.SendPacket(new SelectedMetalMessage(index));
         }
 
