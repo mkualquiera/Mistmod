@@ -45,9 +45,17 @@ namespace MistMod
                         Helper.ClearAllReserves();
                     }
                 }
-            }
+            }  
+            
             
             return damage;
+        }
+
+        public override void OnEntityDeath(DamageSource damageSourceForDeath) {
+            Helper.ClearAllReserves();
+            foreach (string metal in MistModSystem.METALS) {
+                Helper.SetBurnStatus(metal, 0);
+            }
         }
 
         private int keyTick = 0;
@@ -55,6 +63,8 @@ namespace MistMod
         public override void OnGameTick(float deltaTime)
         {
             keyTick++;
+            float speedBoost = Helper.GetEffectiveBurnStatus("pewter") * (1.0f / 5.0f);
+            entity.Stats.Set("walkspeed", "allomancy", speedBoost, false);
             if (Helper.BurnToggle != null) {
                 foreach (var pair in Helper.BurnToggle) {
                     if (Helper.GetBurnToggle(pair.Key)) {
@@ -64,13 +74,6 @@ namespace MistMod
             }
             if (keyTick >= 1000) {
                 keyTick = 0;
-            }
-        }
-
-        public override void OnEntityDeath(DamageSource damageSourceForDeath) {
-            Helper.ClearAllReserves();
-            foreach (string metal in MistModSystem.METALS) {
-                Helper.SetBurnStatus(metal, 0);
             }
         }
 
