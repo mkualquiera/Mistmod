@@ -96,11 +96,8 @@ namespace MistMod {
             // Add event to know when the game has loaded.
             Capi.Event.BlockTexturesLoaded += OnLoad;
 
-            Capi.Event.PlayerEntitySpawn += (IClientPlayer player) => {
-                if (player.Entity == Capi.World.Player.Entity) {
-                    // Instantiate the allomancy helper.
-                    AllomancyHelper = new AllomancyPropertyHelper(Capi.World.Player.Entity);
-                }
+            Capi.Event.LevelFinalize += () => {
+                AllomancyHelper = new AllomancyPropertyHelper(Capi.World.Player.Entity);
             };
 
             // Register UI updates

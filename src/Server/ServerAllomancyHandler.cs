@@ -4,6 +4,8 @@ using Vintagestory.API.Common;
 using Vintagestory.API.Common.Entities;
 using Vintagestory.API.MathTools;
 using Vintagestory.API.Server;
+using Vintagestory.GameContent;
+
 namespace MistMod {
 
     /// <summary> Server side handler for mod functionality </summary<>
@@ -33,6 +35,22 @@ namespace MistMod {
 
             Channel.SetMessageHandler<BurnMessage>(OnBurnMetalMessage);
             Channel.SetMessageHandler<SelectedMetalMessage>(OnSelectedMetalMessage);
+
+            Sapi.Event.PlayerJoin += OnPlayerJoin;
+        }
+
+        private void OnPlayerJoin (IServerPlayer playerJ) {
+            var player = playerJ;
+            var entity = player.Entity;
+            Sapi.Event.RegisterCallback ((float dt) => {
+                EntityBehaviorHealth health = (EntityBehaviorHealth)entity.GetBehavior("health");
+                OnDamagedDelegate previousDelegate = health.onDamaged;
+                health.onDamaged = (float damage, DamageSource source) => {
+                    float previousDamage = previousDelegate(damage, source);
+                    var allomancy = (EntityBehaviorAllomancy)entity.GetBehavior("allomancy");
+                    return allomancy.OnDamageAfterArmor (previousDamage, source);
+                };
+            }, 500);
         }
 
         private void OnSelectedMetalMessage(IServerPlayer player, SelectedMetalMessage message) {

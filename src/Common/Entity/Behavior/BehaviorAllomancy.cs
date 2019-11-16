@@ -7,6 +7,7 @@ using Vintagestory.API.Common.Entities;
 using Vintagestory.API.Datastructures;
 using Vintagestory.API.MathTools;
 
+
 namespace MistMod
 {
     public class EntityBehaviorAllomancy : EntityBehavior
@@ -24,6 +25,19 @@ namespace MistMod
         {
             Helper = new AllomancyPropertyHelper(entity);
             Helper.Initialize();
+        }
+
+
+        /// <summary> Called when the entity has received damage, but after armor damage reduction was applied </summary>
+        public float OnDamageAfterArmor (float damage, DamageSource source) {
+            int effectivePewterBurnStatus = Helper.GetEffectiveBurnStatus("pewter");
+            if (effectivePewterBurnStatus > 0) {
+                int reductionTier = effectivePewterBurnStatus - 1;
+                float reductionAmount = 0.9f + (0.1f / 4.0f * reductionTier);
+                float reducedDamage = damage * reductionAmount;
+                return damage - reducedDamage;
+            }
+            return damage;
         }
 
         private int keyTick = 0;

@@ -12,7 +12,7 @@ namespace MistMod
     /// <summary> Helper class to allow for easier manipulation of the allomantic properties tree </summary>
     public class AllomancyPropertyHelper
     {
-        Entity entity;
+        public Entity Entity;
         TreeAttribute allomancyTree;
 
         /// <summary> Tree containing the allomantic powers for the player </summary>
@@ -42,8 +42,8 @@ namespace MistMod
         /// <summary> Construct an allomantic property helper from a given entity. </summary>
         public AllomancyPropertyHelper (Entity allomanticEntity) {
             // Obtain the tree of allomantic properties for the entity
-            entity = allomanticEntity;
-            allomancyTree = (TreeAttribute)entity.WatchedAttributes.GetTreeAttribute("allomancy");
+            Entity = allomanticEntity;
+            allomancyTree = (TreeAttribute)Entity.WatchedAttributes.GetTreeAttribute("allomancy");
         }
 
         private static Random RNG = new Random();
@@ -53,7 +53,7 @@ namespace MistMod
             if (allomancyTree == null)
             {
                 // The entity doesn't have any allomantic properties registered, so we add them.
-                entity.WatchedAttributes.SetAttribute("allomancy", allomancyTree = new TreeAttribute());
+                Entity.WatchedAttributes.SetAttribute("allomancy", allomancyTree = new TreeAttribute());
                 allomancyTree.SetAttribute("powers", new TreeAttribute());
                 allomancyTree.SetAttribute("metals", new TreeAttribute());
                 allomancyTree.SetAttribute("status", new TreeAttribute());
@@ -62,7 +62,7 @@ namespace MistMod
                 // Make the entity a random misting.
                 string chosenPower = MistModSystem.METALS[RNG.Next(0, MistModSystem.METALS.Length)];
                 AllomanticPowers.SetBool(chosenPower, true);
-                entity.WatchedAttributes.MarkPathDirty("allomancy");
+                Entity.WatchedAttributes.MarkPathDirty("allomancy");
                 return;
             }
         }
@@ -70,7 +70,7 @@ namespace MistMod
         /// <summary> Set the currently selected metal for the entity with this behavior </summary>
         public void SetSelectedMetal (string metal) {
             allomancyTree.SetString("selectedMetal", metal);
-            entity.WatchedAttributes.MarkPathDirty("allomancy");
+            Entity.WatchedAttributes.MarkPathDirty("allomancy");
         }
 
         /// <summary> Get the currently selected metal for the entity with this behavior </summary>
@@ -101,7 +101,7 @@ namespace MistMod
         /// <param id="metal"> The name of the metal power to be set </param> 
         public void SetPower (string metal, bool value) {
             AllomanticPowers.SetBool(metal, value);
-            entity.WatchedAttributes.MarkPathDirty("allomancy");
+            Entity.WatchedAttributes.MarkPathDirty("allomancy");
         }
 
         /// <summary> Find if this entity has a specific allomantic power </summary>
@@ -120,7 +120,7 @@ namespace MistMod
         /// <param id="metal"> The name of the metal power to be toggled </param>
         public void SetBurnToggle (string metal, bool value) {
             BurnToggle.SetBool(metal, value);
-            entity.WatchedAttributes.MarkPathDirty("allomancy");
+            Entity.WatchedAttributes.MarkPathDirty("allomancy");
         }
 
         /// <summary> Get the toggle of the burn of a specific metal </summary> 
@@ -135,13 +135,22 @@ namespace MistMod
             if (status < 0) status = 0;
             if (status > 5) status = 5;
             BurnStatus.SetInt(metal, status);
-            entity.WatchedAttributes.MarkPathDirty("allomancy");
+            Entity.WatchedAttributes.MarkPathDirty("allomancy");
         }
         
         /// <summary> Get the burn status of a specific metal </summary> 
         /// <param id="metal"> The name of the metal power to get the burn of </param>
         public int GetBurnStatus (string metal) {
             return BurnStatus.GetInt(metal);
+        }
+        
+        /// <summary> Get the burn status of a metal given all conditions needed to burned it </summary>
+        /// <param id="metal"> The name of the metal power to get the burn of </param>
+        public int GetEffectiveBurnStatus (string metal) {
+            if (!GetPower(metal)) return 0;
+            if (!GetBurnToggle(metal)) return 0;
+            if (GetMetalReserve(metal) <= 0) return 0;
+            return GetBurnStatus(metal);
         }
 
         /// <summary> Increment the burn status of a specific metal </summary> 
@@ -163,7 +172,7 @@ namespace MistMod
                 amount = 0;
             }
             MetalReserves.SetFloat(metal, amount);
-            entity.WatchedAttributes.MarkPathDirty("allomancy");
+            Entity.WatchedAttributes.MarkPathDirty("allomancy");
         }
 
         /// <summary> Get the metal reserve of a specific metal </summary> 
