@@ -4,7 +4,7 @@ using ProtoBuf;
 
 namespace MistMod {
 
-    /// <summary> Message for sending changes in the burn status.
+    /// <summary> Message for sending changes in the burn status. </summary>
     [ProtoContract(ImplicitFields = ImplicitFields.AllFields)]
     public class BurnMessage {
         public readonly int _metal_id;

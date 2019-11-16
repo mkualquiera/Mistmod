@@ -33,9 +33,11 @@ namespace MistMod {
             // Register the networking channel.
             Channel = Capi.Network.RegisterChannel(MistModSystem.MOD_ID)
 			    .RegisterMessageType(typeof(BurnMessage))
-                .RegisterMessageType(typeof(SelectedMetalMessage));
+                .RegisterMessageType(typeof(SelectedMetalMessage))
+                .RegisterMessageType(typeof(PlayerRespawnMessage));
 
             Channel.SetMessageHandler<SelectedMetalMessage>(OnSelectedMetalMessage);
+            Channel.SetMessageHandler<PlayerRespawnMessage>(OnPlayerRespawn);
 
             // Hotkeys for burning metals.
             Capi.Input.RegisterHotKey("burn-metal-toggle", 
@@ -96,6 +98,7 @@ namespace MistMod {
             // Add event to know when the game has loaded.
             Capi.Event.BlockTexturesLoaded += OnLoad;
 
+            // Create an allomancy helper for the entity.
             Capi.Event.LevelFinalize += () => {
                 AllomancyHelper = new AllomancyPropertyHelper(Capi.World.Player.Entity);
             };
@@ -106,6 +109,10 @@ namespace MistMod {
                     metalSelector.UpdateUI(dt);
                 }
             }, 10);
+        }
+
+        private void OnPlayerRespawn(PlayerRespawnMessage message) {
+            AllomancyHelper = new AllomancyPropertyHelper(Capi.World.Player.Entity);
         }
 
         private void OnSelectedMetalMessage (SelectedMetalMessage message) {

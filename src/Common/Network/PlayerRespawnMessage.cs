@@ -6,12 +6,8 @@ namespace MistMod {
 
     /// <summary> Message for sending changes in the selected metal. </summary>
     [ProtoContract(ImplicitFields = ImplicitFields.AllFields)]
-    public class SelectedMetalMessage {
-        public readonly int _metal_id;
-        public SelectedMetalMessage(int id) {
-            _metal_id = id;
-        }
-        public SelectedMetalMessage() {
+    public class PlayerRespawnMessage {
+        public PlayerRespawnMessage() {
             
         }
     }
