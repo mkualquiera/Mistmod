@@ -44,7 +44,7 @@ namespace MistMod {
 
         private float OnGeneralEntityDamaged (Entity entity, float damage, DamageSource source) {
             if (source.SourceEntity != null) {
-                if (source.SourceEntity.HasBehavior("allomancy")) {
+                if (source.SourceEntity.HasBehavior("allomancy") && source.Type != EnumDamageType.Heal) {
                     EntityBehaviorAllomancy enemyAllomancy = (EntityBehaviorAllomancy)source.SourceEntity.GetBehavior("allomancy");
                     float damageIncrement = enemyAllomancy.Helper.GetEffectiveBurnStatus("pewter") * (1.0f / 5.0f);
                     return damage + (damage * damageIncrement);
@@ -108,7 +108,7 @@ namespace MistMod {
             EntityBehaviorAllomancy allomancy = ((EntityBehaviorAllomancy)player.Entity.GetBehavior("allomancy"));
             if (message._burn_strength == 1) { // Flare the metal
                 int currentStrength = allomancy.Helper.GetBurnStatus(MistModSystem.METALS[message._metal_id]);
-                allomancy.TryExecuteAllomanticEffect(MistModSystem.METALS[message._metal_id], currentStrength, true);
+                allomancy.TryExecuteActiveAllomanticEffect(MistModSystem.METALS[message._metal_id], currentStrength, true);
             } 
             if (message._burn_strength == 2) { // Decrease the burn status
                 allomancy.Helper.IncrementBurnStatus(MistModSystem.METALS[message._metal_id], -1);

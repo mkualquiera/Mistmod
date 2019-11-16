@@ -6,7 +6,7 @@ using Vintagestory.API.Common;
 using Vintagestory.API.Common.Entities;
 using Vintagestory.API.Datastructures;
 using Vintagestory.API.MathTools;
-
+using Vintagestory.GameContent;
 
 namespace MistMod
 {
@@ -30,12 +30,12 @@ namespace MistMod
 
         /// <summary> Called when the entity has received damage, but after armor damage reduction was applied </summary>
         public float OnDamageAfterArmor (float damage, DamageSource source) {
+            float newDamage = damage;
             int effectivePewterBurnStatus = Helper.GetEffectiveBurnStatus("pewter");
-            if (effectivePewterBurnStatus > 0) {
-                int reductionTier = effectivePewterBurnStatus - 1;
-                float reductionAmount = 0.9f + (0.1f / 4.0f * reductionTier);
+            if (effectivePewterBurnStatus > 0 && source.Type != EnumDamageType.Heal) {
+                float reductionAmount = (1f / 5.0f * effectivePewterBurnStatus);
                 float reducedDamage = damage * reductionAmount;
-                return damage - reducedDamage;
+                newDamage -= reducedDamage;
             }
             if (source.SourceEntity != null) {
                 if (source.SourceEntity.HasBehavior("allomancy")) {
@@ -46,9 +46,7 @@ namespace MistMod
                     }
                 }
             }  
-            
-            
-            return damage;
+            return newDamage;
         }
 
         public override void OnEntityDeath(DamageSource damageSourceForDeath) {
@@ -68,7 +66,7 @@ namespace MistMod
             if (Helper.BurnToggle != null) {
                 foreach (var pair in Helper.BurnToggle) {
                     if (Helper.GetBurnToggle(pair.Key)) {
-                       TryExecuteAllomanticEffect(pair.Key, Helper.GetBurnStatus(pair.Key), false);
+                       TryExecuteActiveAllomanticEffect(pair.Key, Helper.GetBurnStatus(pair.Key), false);
                     }
                 }
             }
@@ -78,7 +76,7 @@ namespace MistMod
         }
 
         /// <summary> Try to execute an allomantic effect from this entity </summary>
-        public void TryExecuteAllomanticEffect (string power, int strength, bool flare) {
+        public void TryExecuteActiveAllomanticEffect (string power, int strength, bool flare) {
             //Console.WriteLine(GetPower(power) + " " + GetMetalReserve(power));
             if (!Helper.GetPower(power)) { return; }
             if (Helper.GetMetalReserve(power) <= 0) { return; }
@@ -88,6 +86,18 @@ namespace MistMod
             if (power == "aluminium") {
                 Helper.ClearAllReserves();
             }
+            if (power == "pewter") {
+                EntityBehaviorHealth health = (EntityBehaviorHealth)entity.GetBehavior("health");
+                if (health.Health < health.MaxHealth) {
+                    float divider = 50;
+                    float magnitude = strength / divider;
+                    if (flare) { magnitude = 2; }
+                    entity.ReceiveDamage(new DamageSource(){
+                        Source = EnumDamageSource.Internal,
+                        Type = EnumDamageType.Heal
+                    }, magnitude);
+                }
+            } 
             if (power == "steel" | power == "iron") {
                 if (keyTick % 15 == 0 | flare) {
                     float divider = 23;
