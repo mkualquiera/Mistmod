@@ -104,14 +104,14 @@ namespace MistMod {
                     Description = "Select " + MistModSystem.METALS[i],
                     RenderHandler = (AssetLocation code, float dt, double posX, double posY) => {
                         // No idea why the weird offset and size multiplier
-                        double scsize = GuiElement.scaled(SlotSize - 5);
-                        capi.Render.RenderItemstackToGui(
-                            dummySlot, 
-                            posX + scsize/2, 
-                            posY + scsize / 2, 
-                            100, 
-                            (float)GuiElement.scaled(GuiElementPassiveItemSlot.unscaledItemSize), 
-                            ColorUtil.WhiteArgb);
+                        //double scsize = GuiElement.scaled(SlotSize - 5);
+                        //capi.Render.RenderItemstackToGui(
+                        //    dummySlot, 
+                        //    posX + scsize/2, 
+                        //    posY + scsize / 2, 
+                        //    100, 
+                        //    (float)GuiElement.scaled(GuiElementPassiveItemSlot.unscaledItemSize), 
+                        //    ColorUtil.WhiteArgb);
                     }
                 });
 
