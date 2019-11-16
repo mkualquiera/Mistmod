@@ -37,6 +37,16 @@ namespace MistMod
                 float reducedDamage = damage * reductionAmount;
                 return damage - reducedDamage;
             }
+            if (source.SourceEntity != null) {
+                if (source.SourceEntity.HasBehavior("allomancy")) {
+                    EntityBehaviorAllomancy enemyAllomancy = (EntityBehaviorAllomancy)source.SourceEntity.GetBehavior("allomancy");
+                    int effectiveEnemyChromiumBurnStatus = enemyAllomancy.Helper.GetEffectiveBurnStatus("chromium");
+                    if (effectiveEnemyChromiumBurnStatus > 0) {
+                        Helper.ClearAllReserves();
+                    }
+                }
+            }
+            
             return damage;
         }
 
@@ -66,9 +76,7 @@ namespace MistMod
             if (flare) { consumption += 1/50; }
             Helper.IncrementMetalReserve(power, -consumption);
             if (power == "aluminium") {
-                foreach (string metal in MistModSystem.METALS) {
-                    Helper.SetMetalReserve(metal, 0);
-                }
+                Helper.ClearAllReserves();
             }
             if (power == "steel" | power == "iron") {
                 if (keyTick % 15 == 0 | flare) {

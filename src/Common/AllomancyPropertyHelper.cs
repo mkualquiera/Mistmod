@@ -104,6 +104,13 @@ namespace MistMod
             Entity.WatchedAttributes.MarkPathDirty("allomancy");
         }
 
+        /// <summary> Clear all metal reserves from the entity </summary>
+        public void ClearAllReserves () {
+            foreach (string metal in MistModSystem.METALS) {
+                SetMetalReserve(metal, 0);
+            }
+        }
+
         /// <summary> Find if this entity has a specific allomantic power </summary>
         /// <param id="metal"> The name of the metal power to be queried </param>
         public bool GetPower (string metal) {
