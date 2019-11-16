@@ -67,6 +67,13 @@ namespace MistMod
             }
         }
 
+        public override void OnEntityDeath(DamageSource damageSourceForDeath) {
+            Helper.ClearAllReserves();
+            foreach (string metal in MistModSystem.METALS) {
+                Helper.SetBurnStatus(metal, 0);
+            }
+        }
+
         /// <summary> Try to execute an allomantic effect from this entity </summary>
         public void TryExecuteAllomanticEffect (string power, int strength, bool flare) {
             //Console.WriteLine(GetPower(power) + " " + GetMetalReserve(power));
