@@ -39,6 +39,32 @@ namespace MistMod {
 
             Sapi.Event.PlayerJoin += OnPlayerJoin;
             Sapi.Event.PlayerRespawn += OnPlayerRespawn;
+            Sapi.Event.OnEntitySpawn += OnEntitySpawn;
+        }
+
+        private float OnGeneralEntityDamaged (Entity entity, float damage, DamageSource source) {
+            if (source.SourceEntity != null) {
+                if (source.SourceEntity.HasBehavior("allomancy")) {
+                    EntityBehaviorAllomancy enemyAllomancy = (EntityBehaviorAllomancy)source.SourceEntity.GetBehavior("allomancy");
+                    float damageIncrement = enemyAllomancy.Helper.GetEffectiveBurnStatus("pewter") * (1.0f / 5.0f);
+                    return damage + (damage * damageIncrement);
+                }
+            }
+            return damage;
+        }
+
+        private void OnEntitySpawn(Entity spawnedEntity) {
+            if (spawnedEntity.HasBehavior("health")) {
+                var entity = spawnedEntity;
+                Sapi.Event.RegisterCallback ((float dt) => {
+                    EntityBehaviorHealth health = (EntityBehaviorHealth)entity.GetBehavior("health");
+                    OnDamagedDelegate previousDelegate = health.onDamaged;
+                    health.onDamaged = (float damage, DamageSource source) => {
+                        float previousDamage = OnGeneralEntityDamaged(entity, damage, source);
+                        return previousDelegate(previousDamage, source);
+                    };
+                }, 100);
+            }
         }
 
         private void OnPlayerRespawn (IServerPlayer player) {
@@ -56,7 +82,7 @@ namespace MistMod {
                     var allomancy = (EntityBehaviorAllomancy)entity.GetBehavior("allomancy");
                     return allomancy.OnDamageAfterArmor (previousDamage, source);
                 };
-            }, 500);
+            }, 100);
         }
 
         private void OnSelectedMetalMessage(IServerPlayer player, SelectedMetalMessage message) {
