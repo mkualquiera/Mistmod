@@ -56,8 +56,10 @@ namespace MistMod
                     }
                 }
             }
-            ServerAllomancyHandler.Current.Channel.SendPacket(new ReplaceAlloHelperEntity(),
-                (IServerPlayer)entity.World.PlayerByUid(((EntityPlayer)entity).PlayerUID));  
+            ServerAllomancyHandler.Current.Sapi.Event.RegisterCallback((float dt) => {
+                ServerAllomancyHandler.Current.Channel.SendPacket(new ReplaceAlloHelperEntity(),
+                (IServerPlayer)entity.World.PlayerByUid(((EntityPlayer)entity).PlayerUID)); 
+            }, 250); 
             return newDamage;
         }
 

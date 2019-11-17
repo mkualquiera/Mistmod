@@ -105,6 +105,7 @@ namespace MistMod {
 
             // Register UI updates
             Capi.Event.RegisterGameTickListener((float dt) => {
+                AllomancyHelper.Entity = Capi.World.Player.Entity;
                 if (AllomancyHelper != null) {
                     metalSelector.UpdateUI(dt);
                 }
