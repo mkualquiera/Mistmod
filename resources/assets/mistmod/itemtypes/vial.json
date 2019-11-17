@@ -4,10 +4,10 @@
 	"attributesByType": {
 		"*": { 
 			"metal": "{metal}",
-			"amount": 750.0
+			"amount": 200.0
 		}
 	},
-	"maxstacksize": 16,
+	"maxstacksize": 2,
 	"variantgroups": [
 		{
 			"code": "metal",

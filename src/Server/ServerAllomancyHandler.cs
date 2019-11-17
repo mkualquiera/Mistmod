@@ -48,6 +48,7 @@ namespace MistMod {
                     EntityBehaviorAllomancy enemyAllomancy = (EntityBehaviorAllomancy)source.SourceEntity.GetBehavior("allomancy");
                     float damageIncrement = enemyAllomancy.Helper.GetEffectiveBurnStatus("pewter") * (1.0f / 5.0f);
                     enemyAllomancy.Helper.IncreasePewterFatigue(damageIncrement / 2);
+                    enemyAllomancy.Helper.IncrementMetalReserve("pewter", -damageIncrement / 4);
                     return damage + (damage * damageIncrement);
                 }
             }
