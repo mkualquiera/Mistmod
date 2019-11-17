@@ -20,6 +20,7 @@
 
   <ItemGroup>
 		<PackageReference Include="protobuf-net" Version="2.1.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="8.0.1" />
 	</ItemGroup>
   
   <Target Name="Copy" AfterTargets="PostBuildEvent" Condition="'$(Configuration)' == 'Debug'">

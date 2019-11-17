@@ -83,7 +83,7 @@ namespace MistMod
             float distance = prevPos.HorizontalSquareDistanceTo(entity.Pos.XYZ);
             prevPos = entity.Pos.XYZ.Clone();
             if (Helper.GetEffectiveBurnStatus("pewter") > 0) {
-                Helper.IncreasePewterFatigue(distance / 5);
+                Helper.IncreasePewterFatigue(distance / 16);
             }
             if (Helper.BurnToggle != null) {
                 foreach (var pair in Helper.BurnToggle) {

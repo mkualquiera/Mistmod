@@ -2,6 +2,7 @@ using System;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;
 using Vintagestory.API.Common.Entities;
+using Vintagestory.API.Datastructures;
 using Vintagestory.API.MathTools;
 
 namespace MistMod {
@@ -27,6 +28,8 @@ namespace MistMod {
         }
 
         GuiDialogMetalSelector metalSelector;
+
+        float targetVignete;
 
         /// <summary> Initialize the client handler. </summary> 
         public void Initialize () {
@@ -111,6 +114,17 @@ namespace MistMod {
                     metalSelector.UpdateUI(dt);
                 }
             }, 10);
+
+            // Visual effects updates
+            Capi.Event.RegisterGameTickListener((float dt) => {
+                if (AllomancyHelper != null) {
+                    float maxhealth = ((ITreeAttribute)Capi.World.Player.Entity.WatchedAttributes["health"]).GetFloat("maxhealth");
+                    float fatigue = AllomancyHelper.GetPewterFatigue();
+                    float targetVignete = fatigue / maxhealth;
+                    if (targetVignete > 1) { targetVignete = 1; }
+                    ShaderLoader.VigneteStrength += (targetVignete - ShaderLoader.VigneteStrength)/5;
+                }
+            }, 0);
         }
 
         private void OnUpdateAlloHelper(ReplaceAlloHelperEntity message) {
