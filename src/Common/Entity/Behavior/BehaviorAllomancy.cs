@@ -36,6 +36,7 @@ namespace MistMod
                 float reductionAmount = (1f / 5.0f * effectivePewterBurnStatus);
                 float reducedDamage = damage * reductionAmount;
                 newDamage -= reducedDamage;
+                Helper.IncreasePewterFatigue(reducedDamage * 2);
             }
             EntityBehaviorHealth health = (EntityBehaviorHealth)entity.GetBehavior("health");
             if (newDamage > health.Health) {
@@ -43,7 +44,8 @@ namespace MistMod
                     if (Helper.GetMetalReserve("pewter") > 0) {
                         Helper.SetBurnToggle("pewter", true);
                         Helper.IncrementBurnStatus("pewter", 1);
-                        newDamage /=20;
+                        Helper.IncreasePewterFatigue(newDamage * Helper.GetEffectiveBurnStatus("pewter"));
+                        newDamage = health.Health / 2;
                     }
                 }
             }
@@ -56,10 +58,6 @@ namespace MistMod
                     }
                 }
             }
-            ServerAllomancyHandler.Current.Sapi.Event.RegisterCallback((float dt) => {
-                ServerAllomancyHandler.Current.Channel.SendPacket(new ReplaceAlloHelperEntity(),
-                (IServerPlayer)entity.World.PlayerByUid(((EntityPlayer)entity).PlayerUID)); 
-            }, 250); 
             return newDamage;
         }
 
@@ -72,11 +70,21 @@ namespace MistMod
 
         private int keyTick = 0;
         
+        private Vec3d prevPos;
         public override void OnGameTick(float deltaTime)
         {
             keyTick++;
+            Helper.IncreasePewterFatigue(-Helper.GetPewterFatigue() / 15 * deltaTime);
             float speedBoost = Helper.GetEffectiveBurnStatus("pewter") * (1.0f / 5.0f);
             entity.Stats.Set("walkspeed", "allomancy", speedBoost, false);
+            if (prevPos == null){
+                prevPos = entity.Pos.XYZ.Clone();
+            }
+            float distance = prevPos.HorizontalSquareDistanceTo(entity.Pos.XYZ);
+            prevPos = entity.Pos.XYZ.Clone();
+            if (Helper.GetEffectiveBurnStatus("pewter") > 0) {
+                Helper.IncreasePewterFatigue(distance / 5);
+            }
             if (Helper.BurnToggle != null) {
                 foreach (var pair in Helper.BurnToggle) {
                     if (Helper.GetBurnToggle(pair.Key)) {
@@ -110,6 +118,7 @@ namespace MistMod
                         Source = EnumDamageSource.Internal,
                         Type = EnumDamageType.Heal
                     }, magnitude);
+                    Helper.IncreasePewterFatigue(magnitude);
                 }
             } 
             if (power == "steel" | power == "iron") {

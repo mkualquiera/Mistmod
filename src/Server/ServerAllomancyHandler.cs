@@ -47,6 +47,7 @@ namespace MistMod {
                 if (source.SourceEntity.HasBehavior("allomancy") && source.Type != EnumDamageType.Heal) {
                     EntityBehaviorAllomancy enemyAllomancy = (EntityBehaviorAllomancy)source.SourceEntity.GetBehavior("allomancy");
                     float damageIncrement = enemyAllomancy.Helper.GetEffectiveBurnStatus("pewter") * (1.0f / 5.0f);
+                    enemyAllomancy.Helper.IncreasePewterFatigue(damageIncrement / 2);
                     return damage + (damage * damageIncrement);
                 }
             }

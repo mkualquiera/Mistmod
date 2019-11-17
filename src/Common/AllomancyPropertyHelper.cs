@@ -43,7 +43,12 @@ namespace MistMod
         public AllomancyPropertyHelper (Entity allomanticEntity) {
             // Obtain the tree of allomantic properties for the entity
             Entity = allomanticEntity;
-            allomancyTree = (TreeAttribute)Entity.WatchedAttributes.GetTreeAttribute("allomancy");
+            UpdateTree();
+        }
+
+        /// <summary> Update the internal tree </summary>
+        public void UpdateTree () {
+            if (Entity != null) allomancyTree = (TreeAttribute)Entity.WatchedAttributes.GetTreeAttribute("allomancy");
         }
 
         private static Random RNG = new Random();
