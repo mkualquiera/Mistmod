@@ -37,6 +37,16 @@ namespace MistMod
                 float reducedDamage = damage * reductionAmount;
                 newDamage -= reducedDamage;
             }
+            EntityBehaviorHealth health = (EntityBehaviorHealth)entity.GetBehavior("health");
+            if (newDamage > health.Health) {
+                if (Helper.GetPower("pewter") && source.Type != EnumDamageType.Heal) {
+                    if (Helper.GetMetalReserve("pewter") > 0) {
+                        Helper.SetBurnToggle("pewter", true);
+                        Helper.IncrementBurnStatus("pewter", 1);
+                        newDamage /=20;
+                    }
+                }
+            }
             if (source.SourceEntity != null) {
                 if (source.SourceEntity.HasBehavior("allomancy")) {
                     EntityBehaviorAllomancy enemyAllomancy = (EntityBehaviorAllomancy)source.SourceEntity.GetBehavior("allomancy");
@@ -45,7 +55,9 @@ namespace MistMod
                         Helper.ClearAllReserves();
                     }
                 }
-            }  
+            }
+            ServerAllomancyHandler.Current.Channel.SendPacket(new ReplaceAlloHelperEntity(),
+                (IServerPlayer)entity.World.PlayerByUid(((EntityPlayer)entity).PlayerUID));  
             return newDamage;
         }
 
@@ -86,8 +98,8 @@ namespace MistMod
             if (power == "aluminium") {
                 Helper.ClearAllReserves();
             }
+            EntityBehaviorHealth health = (EntityBehaviorHealth)entity.GetBehavior("health");
             if (power == "pewter") {
-                EntityBehaviorHealth health = (EntityBehaviorHealth)entity.GetBehavior("health");
                 if (health.Health < health.MaxHealth) {
                     float divider = 50;
                     float magnitude = strength / divider;

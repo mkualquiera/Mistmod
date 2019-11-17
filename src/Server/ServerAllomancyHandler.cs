@@ -32,7 +32,7 @@ namespace MistMod {
             Channel = Sapi.Network.RegisterChannel(MistModSystem.MOD_ID)
 			    .RegisterMessageType(typeof(BurnMessage))
                 .RegisterMessageType(typeof(SelectedMetalMessage))
-                .RegisterMessageType(typeof(PlayerRespawnMessage));
+                .RegisterMessageType(typeof(ReplaceAlloHelperEntity));
 
             Channel.SetMessageHandler<BurnMessage>(OnBurnMetalMessage);
             Channel.SetMessageHandler<SelectedMetalMessage>(OnSelectedMetalMessage);
@@ -68,7 +68,7 @@ namespace MistMod {
         }
 
         private void OnPlayerRespawn (IServerPlayer player) {
-            Channel.SendPacket(new PlayerRespawnMessage(), player);
+            Channel.SendPacket(new ReplaceAlloHelperEntity(), player);
         }
 
         private void OnPlayerJoin (IServerPlayer playerJ) {

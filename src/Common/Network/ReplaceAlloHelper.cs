@@ -6,8 +6,8 @@ namespace MistMod {
 
     /// <summary> Message for sending changes in the selected metal. </summary>
     [ProtoContract(ImplicitFields = ImplicitFields.AllFields)]
-    public class PlayerRespawnMessage {
-        public PlayerRespawnMessage() {
+    public class ReplaceAlloHelperEntity {
+        public ReplaceAlloHelperEntity() {
             
         }
     }

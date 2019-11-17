@@ -59,12 +59,31 @@ namespace MistMod
                 allomancyTree.SetAttribute("status", new TreeAttribute());
                 allomancyTree.SetAttribute("toggle", new TreeAttribute());
                 allomancyTree.SetString("selectedMetal", "none");
+                allomancyTree.SetFloat("pewterFatigue", 0);
                 // Make the entity a random misting.
                 string chosenPower = MistModSystem.METALS[RNG.Next(0, MistModSystem.METALS.Length)];
                 AllomanticPowers.SetBool(chosenPower, true);
                 Entity.WatchedAttributes.MarkPathDirty("allomancy");
                 return;
             }
+        }
+
+        /// <summary> Set the current pewter fatigue </summary>
+        public void SetPewterFatigue (float value) {
+            if (value < 0) value = 0;
+            allomancyTree.SetFloat("pewterFatigue", value);
+            Entity.WatchedAttributes.MarkPathDirty("allomancy");
+        }
+
+        /// <summary> Get the current pewter fatigue </summary>
+        public float GetPewterFatigue () {
+            return allomancyTree.GetFloat("pewterFatigue");
+        }
+
+
+        /// <summary> Increase the current pewter fatigue </summary>
+        public void IncreasePewterFatigue (float amount) {
+            SetPewterFatigue(GetPewterFatigue() + amount);
         }
 
         /// <summary> Set the currently selected metal for the entity with this behavior </summary>
