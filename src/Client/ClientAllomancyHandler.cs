@@ -27,9 +27,22 @@ namespace MistMod {
             Current = this;
         }
 
+        private static SimpleParticleProperties motionParticles = new SimpleParticleProperties(
+            1,
+            1,
+            ColorUtil.ColorFromRgba(0, 255, 255, 50),
+            new Vec3d(),
+            new Vec3d(),
+            new Vec3f(0,0.2f,0),
+            new Vec3f(0,0.2f,0)
+        );
+
+
+
         GuiDialogMetalSelector metalSelector;
 
         float targetVignete;
+        float targetNightvision;
 
         /// <summary> Initialize the client handler. </summary> 
         public void Initialize () {
@@ -115,6 +128,8 @@ namespace MistMod {
                 }
             }, 10);
 
+            motionParticles.gravityEffect = 0;
+
             // Visual effects updates
             Capi.Event.RegisterGameTickListener((float dt) => {
                 if (AllomancyHelper != null) {
@@ -123,8 +138,27 @@ namespace MistMod {
                     float targetVignete = fatigue / maxhealth;
                     if (targetVignete > 1) { targetVignete = 1; }
                     ShaderLoader.VigneteStrength += (targetVignete - ShaderLoader.VigneteStrength)/5;
+                    int tinstatus = AllomancyHelper.GetEffectiveBurnStatus("tin");
+                    targetNightvision = tinstatus * (1.0f / 5.0f);
+                    ShaderLoader.NightvisionStrength += (targetNightvision - ShaderLoader.NightvisionStrength)/5;
                 }
             }, 0);
+            Capi.Event.RegisterGameTickListener((float dt) => {
+                int tinstatus = AllomancyHelper.GetEffectiveBurnStatus("tin");
+                if (tinstatus > 0) {
+                        motionParticles.glowLevel = (byte)(255.0f * tinstatus * (1.0f / 5.0f));
+                        float vspeed = 3.0f * tinstatus * (1.0f / 5.0f) + 0.1f;
+                        motionParticles.minSize = 3.0f * tinstatus * (1.0f / 5.0f) + 1f;
+                        motionParticles.maxSize = 3.0f * tinstatus * (1.0f / 5.0f) + 1f;
+                        motionParticles.minVelocity.Y = vspeed;                        
+                        Entity[] nearbyEnts = Capi.World.GetEntitiesAround(Capi.World.Player.Entity.Pos.XYZ, 100, 100);
+                        foreach(Entity ent in nearbyEnts) {
+                            if (ent == Capi.World.Player.Entity) continue;
+                            motionParticles.minPos = ent.Pos.XYZ;
+                            Capi.World.SpawnParticles(motionParticles);
+                        }
+                    }
+            }, 100);
         }
 
         private void OnUpdateAlloHelper(ReplaceAlloHelperEntity message) {

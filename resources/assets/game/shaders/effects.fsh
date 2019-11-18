@@ -9,6 +9,7 @@ out vec4 outColor;
 uniform sampler2D iColor;
 
 uniform float iVigneteStrength;
+uniform float iNightvisionStrength;
 
 vec4 Color = texture(iColor, uv);
 
@@ -30,13 +31,28 @@ vec3 hsv2rgb(vec3 c)
     return c.z * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), c.y);
 }
 
+vec3 nightvision (vec3 c, float i) 
+{
+    float intens = 1 - i;
+    float fixer = intens * 0.5;
+    float amount = 0.5 + fixer;
+    float remainder = 1 - amount;
+    vec3 hsv = rgb2hsv(c.xyz);
+    vec3 rgb = hsv2rgb(vec3(hsv.x, hsv.y * amount, (hsv.z * amount) + remainder));
+	return rgb;
+}
+
+vec3 vignete (vec3 c, float i) {
+    float dist = distance(vec2(0.5,0.5), uv.xy);
+    dist = dist - (1.5 - (1.5 * i));
+    dist = 1 - max(dist, 0.0);
+    return c * dist * dist * dist * dist;
+}
+
 void main () 
 {
-    //vec3 hsv = rgb2hsv(Color.xyz);
-    //vec3 rgb = hsv2rgb(vec3(hsv.x, hsv.y * 0.6, (hsv.z * 0.75) + 0.25));
-	//outColor = vec4(rgb.xyz, 1.0);
-    float dist = distance(vec2(0.5,0.5), uv.xy);
-    dist = dist - (1.5 - (1.5 * iVigneteStrength));
-    dist = 1 - max(dist, 0.0);
-    outColor = vec4(Color.xyz * dist * dist * dist * dist, 1.0);
+    vec3 proccol = Color.xyz;
+    proccol = nightvision(proccol, iNightvisionStrength);
+    proccol = vignete (proccol, iVigneteStrength);
+    outColor = vec4(proccol.xyz, 1.0);
 }

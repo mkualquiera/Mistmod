@@ -18,6 +18,7 @@ namespace MistMod
         public ICoreClientAPI capi;
         OrthoRenderer[] orthoRenderers;
 
+        public static float NightvisionStrength;
         public static float VigneteStrength;
         long id;
 
@@ -128,6 +129,7 @@ namespace MistMod
         public static void SetDefaultUniforms(this IShaderProgram prog, ICoreClientAPI capi)
         {
             prog.Uniform("iVigneteStrength", ShaderLoader.VigneteStrength);
+            prog.Uniform("iNightvisionStrength", ShaderLoader.NightvisionStrength);
         }
 
         public static void ReRegisterRenderer(this IClientEventAPI events, IRenderer renderer, EnumRenderStage stage)
