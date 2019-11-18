@@ -34,8 +34,8 @@ vec3 hsv2rgb(vec3 c)
 vec3 nightvision (vec3 c, float i) 
 {
     float intens = 1 - i;
-    float fixer = intens * 0.5;
-    float amount = 0.5 + fixer;
+    float fixer = intens * 0.35;
+    float amount = 0.65 + fixer;
     float remainder = 1 - amount;
     vec3 hsv = rgb2hsv(c.xyz);
     vec3 rgb = hsv2rgb(vec3(hsv.x, hsv.y * amount, (hsv.z * amount) + remainder));

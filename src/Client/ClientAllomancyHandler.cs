@@ -43,6 +43,8 @@ namespace MistMod {
 
         float targetVignete;
         float targetNightvision;
+        int previousTinStatus;
+        
 
         /// <summary> Initialize the client handler. </summary> 
         public void Initialize () {
@@ -135,7 +137,7 @@ namespace MistMod {
                 if (AllomancyHelper != null) {
                     float maxhealth = ((ITreeAttribute)Capi.World.Player.Entity.WatchedAttributes["health"]).GetFloat("maxhealth");
                     float fatigue = AllomancyHelper.GetPewterFatigue();
-                    float targetVignete = fatigue / maxhealth;
+                    targetVignete = fatigue / maxhealth;
                     if (targetVignete > 1) { targetVignete = 1; }
                     ShaderLoader.VigneteStrength += (targetVignete - ShaderLoader.VigneteStrength)/5;
                     int tinstatus = AllomancyHelper.GetEffectiveBurnStatus("tin");
@@ -145,19 +147,28 @@ namespace MistMod {
             }, 0);
             Capi.Event.RegisterGameTickListener((float dt) => {
                 int tinstatus = AllomancyHelper.GetEffectiveBurnStatus("tin");
+                if (previousTinStatus == 0 && tinstatus != 0) {
+                    Capi.Settings.Int["cachedfov"] = Capi.Settings.Int["fieldOfView"];
+                } 
+                if (tinstatus == 0 && previousTinStatus != 0) {
+                    if (Capi.Settings.Int["cachedfov"] != 0)
+                        Capi.Settings.Int["fieldOfView"] = Capi.Settings.Int["cachedfov"];
+                }
                 if (tinstatus > 0) {
-                        motionParticles.glowLevel = (byte)(255.0f * tinstatus * (1.0f / 5.0f));
-                        float vspeed = 3.0f * tinstatus * (1.0f / 5.0f) + 0.1f;
-                        motionParticles.minSize = 3.0f * tinstatus * (1.0f / 5.0f) + 1f;
-                        motionParticles.maxSize = 3.0f * tinstatus * (1.0f / 5.0f) + 1f;
-                        motionParticles.minVelocity.Y = vspeed;                        
-                        Entity[] nearbyEnts = Capi.World.GetEntitiesAround(Capi.World.Player.Entity.Pos.XYZ, 100, 100);
-                        foreach(Entity ent in nearbyEnts) {
-                            if (ent == Capi.World.Player.Entity) continue;
-                            motionParticles.minPos = ent.Pos.XYZ;
-                            Capi.World.SpawnParticles(motionParticles);
-                        }
+                    Capi.Settings.Int["fieldOfView"] = 100 - tinstatus * 18;
+                    motionParticles.glowLevel = (byte)(255.0f * tinstatus * (1.0f / 5.0f));
+                    float vspeed = 3.0f * tinstatus * (1.0f / 5.0f) + 0.1f;
+                    motionParticles.minSize = 3.0f * tinstatus * (1.0f / 5.0f) + 1f;
+                    motionParticles.maxSize = 3.0f * tinstatus * (1.0f / 5.0f) + 1f;
+                    motionParticles.minVelocity.Y = vspeed;                        
+                    Entity[] nearbyEnts = Capi.World.GetEntitiesAround(Capi.World.Player.Entity.Pos.XYZ, 100, 100);
+                    foreach(Entity ent in nearbyEnts) {
+                        if (ent == Capi.World.Player.Entity) continue;
+                        motionParticles.minPos = ent.Pos.XYZ;
+                        Capi.World.SpawnParticles(motionParticles);
                     }
+                }
+                previousTinStatus = tinstatus;
             }, 100);
         }
 
